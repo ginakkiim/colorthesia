@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2><i><font color="red">c</font><font color="orange">o</font><font color="yellow">l</font><font color="green">o</font><font color="blue">r</font>thesia</i></h2>
+<p>colorthesia converts words to a simple yet artistic visual format, connecting syllabic lengths to color temperatures.</p>
+enter some words <input type="text" id="words" name="sentence" onkeydown="if (event.keyCode == 13) document.getElementById('btn').click()"/>
+<input type= "button" id="btn" style="display: none" value = "hidden" onclick="mainFun();"/>
+<p>or 
+<button type="button" onclick="myFunction('We the people of the United States, in order to form a more perfect union, establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare, and secure the blessings of liberty to ourselves and our posterity, do ordain and establish this Constitution for the United States of America.')">preamble</button>
+<button type="button" onclick="myFunction('a aba ababa abababa ababababab abababababab ababababababab')">spectrum</button></p>
+<script>
+function mainFun(){
+	myFunction(document.getElementById("words").value);
+}
+function myFunction(sentence)
+{
+var txt = "color";
+	document.write(" make a color poem!</br>");
+	sentence = sentence.trim();
+	var sentenceArr = sentence.split(" ");
+	
+	var syllables = [];
+	for(var i = 0; i < sentenceArr.length; i++){
+     	syllables.push(count(sentenceArr[i]));
+	}
+
+	var colors = [];
+	for(var j = 0; j < sentenceArr.length; j++){
+		colors[j] = getHexVal(syllables[j]);
+	}
+
+	for(var k = 0; k < sentenceArr.length; k++){
+		var color = "" + colors[k];
+		color = color.trim();
+        	var div = document.createElement("div");
+		div.id = "div" + k;
+        	div.style.width = window.innerWidth+"px";
+		div.style.height = "25px";
+		div.style.background = color;
+		document.body.appendChild(div);
+	}
+	document.write('<a href="javascript:history.back()">back</a>');
+}
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function getHexVal(syl){
+	var sixth = 42;
+	var rgbArray = new Array(3);
+	if(syl <= 1){
+		rgbArray[0] = randomInt(5*sixth, 255);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(0, sixth);
+	}else if(syl === 2){
+		rgbArray[0] = randomInt(4*sixth, 5*sixth);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(sixth, 2*sixth);
+	}else if(syl === 3){
+		rgbArray[0] = randomInt(3*sixth, 4*sixth);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(2*sixth, 3*sixth);
+	}else if(syl === 4){
+		rgbArray[0] = randomInt(2*sixth, 3*sixth);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(3*sixth, 4*sixth);
+	}else if(syl === 5){
+		rgbArray[0] = randomInt(sixth, 2*sixth);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(4*sixth, 5*sixth);
+	}else{
+		rgbArray[0] = randomInt(0, sixth);
+		rgbArray[1] = randomInt(0, 255);
+		rgbArray[2] = randomInt(5*sixth, 255);
+	}
+	return rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
+}
+
+function count(word) {
+  word = word.toLowerCase();                                     
+  if(word.length <= 3) { return 1;}                             
+  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');   
+  word = word.replace(/^y/, '');                                 
+  return word.match(/[aeiouy]{1,2}/g).length;                    
+}
+
+function randomInt(min, max){
+    return Math.floor(Math.random() * (max-min+1) + min);
+}
+
+</script>
+<footer>
+<p><small>this website was created by gina kim.</small></p>
+</footer>
+</body>
+
+
+</html> 
